@@ -1,5 +1,6 @@
 use nannou::prelude::*;
 use nannou::app::Draw;
+use nannou::geom::*;
 use core::iter::Map;
 use std::cell::RefCell;
 use nannou::noise::*;
@@ -11,10 +12,11 @@ fn main() {
 struct Model {
   circle_steps: usize,
   incrementing: bool,
+  //vertices: nannou::draw::Vertices,
 }
 
 fn model(app: &App) -> Model {
-    app.set_loop_mode(LoopMode::rate_fps(30.0));
+    app.set_loop_mode(LoopMode::loop_once());
      let _window = app
          .new_window()
          .with_dimensions(800, 400)
@@ -24,13 +26,15 @@ fn model(app: &App) -> Model {
          .unwrap();
      Model {
        circle_steps: 1,
-       incrementing: true
+       incrementing: true,
+      // vertices: nannou::draw::Vertices::new(),
      }
 
  }
 
 fn key_released(_app: &App, model: &mut Model, key: Key) {
      if key == nannou::winit::VirtualKeyCode::Down {
+
        model.circle_steps -= 1; 
      }
 
@@ -95,7 +99,7 @@ fn view(app: &App,  model: &Model, frame: &Frame) {
     let win_x = win.w() / 2.0; 
     let win_y = win.h() / 2.0;
     
-    let radius = 50.0;
+    let radius = 400.0;
       
     let rgba = srgba(1.0, 1.0, 1.0,1.0);
     let points = circle_points(&radius);
@@ -105,23 +109,17 @@ fn view(app: &App,  model: &Model, frame: &Frame) {
 
     }).collect::<Vec<_>>();
      
-    let mut iter = 1;
-    for i in  (-3..4) {
-      for j in (-3..4) {
+    let vertices = points.clone().into_iter().map( |p| {
+       geom::vertex::Srgba(p, rgba)
+    }).collect::<Vec<_>>();
 
-          let vertices = points.clone().into_iter().map( |p| {
-             let x = p.x + (j as f32 * radius) * 2.0;
-
-             let y = p.y - (i as f32 * radius) * 2.0;
-             let pt = pt2(x, y);
-             geom::vertex::Srgba(pt, rgba)
-          }).collect::<Vec<_>>(); 
-          for (i, vertex) in vertices.iter().step_by(iter).enumerate() {
-            let index = &vertexes.len() - i - 1;
-            draw.polyline().vertices(0.2, &[&vertex, &vertices[index]]); 
-          }
-          iter += 1;    
-      }
+    for (i, vertex) in vertices.iter().step_by(2).enumerate() {
+      let index = &vertexes.len() - i - 1;
+      draw.polyline().vertices(0.2, &[&vertex, &vertices[index]]); 
     }
    draw.to_frame(app, &frame).unwrap();
+   for vertex in draw.vertices().into_iter() {
+     eprint!("{:?}", vertex);
+   }
+   //model.vertices = draw.vertices();
 }
