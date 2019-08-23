@@ -29,4 +29,13 @@ path = "circle_lines_large.rs"
 [[example]] 
 name = "perlin_grid" 
 path = "perlin_grid.rs"
+[[example]] 
+name = "sphere" 
+path = "sphere.rs"
+[[example]] 
+name = "basic_shapes" 
+path = "tutorials/basic_shapes.rs"
+[[example]] 
+name = "wandering_circles" 
+path = "wandering_circles.rs"
 
