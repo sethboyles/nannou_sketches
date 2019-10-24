@@ -11,7 +11,7 @@ homepage = "https://github.com/sethboyles/nannour_sketches"
 edition = "2018"
 
 [dependencies]
-nannou = "0.10"
+nannou = "0.11"
 
 [dev-dependencies]
 
@@ -38,4 +38,13 @@ path = "tutorials/basic_shapes.rs"
 [[example]] 
 name = "wandering_circles" 
 path = "wandering_circles.rs"
+[[example]] 
+name = "mountains" 
+path = "mountains.rs"
+[[example]] 
+name = "layered_mountains"
+path = "layered_mountains.rs"
+[[example]] 
+name = "joy_division"
+path = "joy_division.rs"
 
