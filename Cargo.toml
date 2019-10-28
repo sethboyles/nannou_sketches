@@ -42,6 +42,11 @@ path = "wandering_circles.rs"
 name = "mountains" 
 path = "mountains.rs"
 [[example]] 
+name = "shaded_mountains" 
+path = "shaded_mountains.rs"
+
+
+[[example]] 
 name = "layered_mountains"
 path = "layered_mountains.rs"
 [[example]] 
