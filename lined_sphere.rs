@@ -1,6 +1,6 @@
 use nannou::prelude::*;
 use std::ops::Range;
-
+use nannou::noise::{NoiseFn, Perlin};
 fn main() {
     nannou::app(model).update(update).run();
 }
@@ -36,6 +36,10 @@ struct Model {
   y_rotation: f32
 }
 
+struct Slice {
+  points: Vec<Point3>
+}
+
 fn model(app: &App) -> Model {
   app.set_loop_mode(LoopMode::rate_fps(60.0));
   let _window = app.new_window()
@@ -55,38 +59,62 @@ fn view(app: &App, model: &Model, frame: &Frame) {
     let draw = app.draw();
     // Clear the background.
     draw.background().color(BLACK);
-    
+    let noise = nannou::noise::Perlin::new();
     let r = 400.0;
     let total = 50;
     let point_range = Range {start: 0.0, end: total as f32 };
     let iter_range = Range { start: point_range.start as i32, end: point_range.end as i32 };
-    let pi_range = Range { start: -PI, end: PI };
-    let half_pi_range = Range { start: PI * -0.5, end: PI * 0.5 };
-
+    let pi_range = Range { start: 0.0, end: PI};
+    let half_pi_range = Range { start: 0.0, end: 2.0 * PI };
+    let mut slices = vec![];
     for i in iter_range {
-      let lon = map_range(i as f32, &point_range, &pi_range);  
+      let lat = map_range(i as f32, &point_range, &pi_range);  
 
       let iter_range2 = Range { start: point_range.start as i32, end: point_range.end as i32 };
       
-      for j in iter_range2 {
+      let points = iter_range2.map(|j| {
         
-        let lat = map_range(j as f32, &point_range, &half_pi_range);
+        let lon = map_range(j as f32, &point_range, &half_pi_range);
           
-        let x = r * lon.sin() * lat.cos();
-        let y = r * lon.sin() * lat.sin();
-        let z = r * lon.cos();
+        let mut x = r * lat.sin() * lon.cos();
+        let y = r * lat.sin() * lon.sin();
+        let mut z = r * lat.cos();
+        x += (noise.get([i as f64 * 0.1, j as f64 * 0.1]) * 60.0) as f32;
 
         let mut point = pt3(x,y,z);
         point = rotate_point_x(&point, model.x_rotation);
         point = rotate_point_y(&point, model.y_rotation);
-        draw.tri()
-            .color(WHITE)
-            .w(1.0)
-            .h(1.0)
-            .x_y_z(point.x, point.y, point.z.abs() );
-      }
+        point
+      });
+      let slice = Slice { points: points.collect() };
+      slices.push(slice);
     }
-    
+
+    for (i, slice) in slices.into_iter().enumerate() {
+      let points = slice.points.into_iter().map( |point| {
+        if point.z.is_positive() {
+
+          (pt2(point.x, point.y), WHITE)
+        } else {
+          (pt2(point.x, point.y), BLACK)
+        }
+      });
+      draw.polyline()
+          .weight(1.5)
+          .colored_points_closed(points)
+          .color(WHITE);
+     // for point in slice.points {
+     //    draw.polyline(
+     //    draw.tri()
+     //      .color(WHITE)
+     //      .w(1.0)
+     //      .h(1.0)
+     //      .x_y_z(point.x, point.y, point.z.abs() );
+
+
+     // }
+
+    }
     draw.to_frame(app, &frame).unwrap();
   }
 

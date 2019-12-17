@@ -113,13 +113,13 @@ fn view(app: &App,  model: &Model, frame: &Frame) {
        geom::vertex::Srgba(p, rgba)
     }).collect::<Vec<_>>();
 
-    for (i, vertex) in vertices.iter().step_by(2).enumerate() {
+    for (i, vertex) in points.iter().step_by(2).enumerate() {
       let index = &vertexes.len() - i - 1;
-      draw.polyline().vertices(0.2, &[&vertex, &vertices[index]]); 
+      let verts = [vertex, &points[index]];
+      let points = verts.iter().map(|point| {
+        pt2(point.x, point.y)
+      });
+      draw.polyline().points(points); 
     }
    draw.to_frame(app, &frame).unwrap();
-   for vertex in draw.vertices().into_iter() {
-     eprint!("{:?}", vertex);
-   }
-   //model.vertices = draw.vertices();
 }

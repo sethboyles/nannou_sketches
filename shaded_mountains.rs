@@ -30,22 +30,24 @@ impl Circle {
 }
 
 struct Mountain {
-  points: Vec<nannou::geom::vertex::Srgba<nannou::geom::vector::Vector2>>,
+  //points: Vec<nannou::mesh::vertex::WithColor<nannou::geom::vector::Vector2,  nannou::draw::mesh::vertex::Color>>,
   seed: u32,
+  points: Iterator<Item=(nannou::prelude::Point2, dyn nannou::color::conv::IntoLinSrgba<f32>)>,
+
 }
 
 impl Mountain {
   fn render(&self, draw: &nannou::draw::Draw) {
-    for point in &self.points {
+    for point in self.points {
       draw.line().start(pt2(point.x, point.y - 1.0))
                  .end(pt2(point.x, point.y - 500.0))
                  .color(BLACK);
     }
-    draw.polyline().vertices(1.0, &self.points);
+    draw.polyline().colored_points(self.points);
   }
 }
 
-fn generate_points(clock: f32, x_offset: f32, y_offset: f32, seed: u32) ->  Vec<geom::vertex::Srgba<geom::vector::Vector2>> {
+fn generate_points(clock: f32, x_offset: f32, y_offset: f32, seed: u32) ->  impl Iterator<Item=(nannou::prelude::Point2, impl nannou::color::conv::IntoLinSrgba<f32>)> {
   let num_points = 3000; 
   let noise = Perlin::new();
 
@@ -95,9 +97,9 @@ fn generate_points(clock: f32, x_offset: f32, y_offset: f32, seed: u32) ->  Vec<
         color = srgba(0.0,0.0,0.0,0.0);
       }
     }
-    geom::vertex::Srgba(point, color)
+    (point, color)
     
-  }).collect::<Vec<_>>()
+  })//.collect::<Vec<nannou::mesh::vertex::WithColor<nannou::geom::vector::Vector2,  nannou::draw::mesh::vertex::Color>>()
 }
 
 fn model(app: &App) -> Model {

@@ -12,6 +12,7 @@ edition = "2018"
 
 [dependencies]
 nannou = "0.11"
+agent = "0.0.0"
 
 [dev-dependencies]
 
@@ -32,9 +33,20 @@ path = "perlin_grid.rs"
 [[example]] 
 name = "sphere" 
 path = "sphere.rs"
+[[example]]
+name = "lined_sphere"
+path = "lined_sphere.rs"
 [[example]] 
 name = "basic_shapes" 
 path = "tutorials/basic_shapes.rs"
+[[example]] 
+name = "basic_polyline" 
+path = "tutorials/basic_polyline.rs"
+[[example]] 
+name = "oop_polyline" 
+path = "tutorials/oop_polyline.rs"
+
+
 [[example]] 
 name = "wandering_circles" 
 path = "wandering_circles.rs"
@@ -52,4 +64,8 @@ path = "layered_mountains.rs"
 [[example]] 
 name = "joy_division"
 path = "joy_division.rs"
+[[example]] 
+name = "basic_sphere"
+path = "basic_sphere.rs"
+
 

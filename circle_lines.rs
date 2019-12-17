@@ -114,11 +114,16 @@ fn view(app: &App,  model: &Model, frame: &Frame) {
 
              let y = p.y - (i as f32 * radius) * 2.0;
              let pt = pt2(x, y);
-             geom::vertex::Srgba(pt, rgba)
+             pt
           }).collect::<Vec<_>>(); 
           for (i, vertex) in vertices.iter().step_by(iter).enumerate() {
             let index = &vertexes.len() - i - 1;
-            draw.polyline().vertices(0.2, &[&vertex, &vertices[index]]); 
+            let verts = [vertex, &vertices[index]];
+            let points = verts.iter().map( |point| {
+              pt2(point.x, point.y)
+            }); 
+
+            draw.polyline().weight(0.2).points(points); 
           }
           iter += 1;    
       }

@@ -6,6 +6,11 @@ version = "1.0.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
+name = "agent"
+version = "0.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
 name = "andrew"
 version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -778,6 +783,7 @@ dependencies = [
 name = "nannou_sketches"
 version = "0.1.0"
 dependencies = [
+ "agent 0.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "nannou 0.11.1 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
@@ -1856,6 +1862,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [metadata]
 "checksum adler32 1.0.3 (registry+https://github.com/rust-lang/crates.io-index)" = "7e522997b529f05601e05166c07ed17789691f562762c7f3b987263d2dedee5c"
+"checksum agent 0.0.0 (registry+https://github.com/rust-lang/crates.io-index)" = "7c61bd176d86bd372f1a036cdc6d40a818d75b4ab6de08dd663995ce9110e4b8"
 "checksum andrew 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)" = "9b7f09f89872c2b6b29e319377b1fbe91c6f5947df19a25596e121cf19a7b35e"
 "checksum android_glue 0.2.3 (registry+https://github.com/rust-lang/crates.io-index)" = "000444226fcff248f2bc4c7625be32c63caccfecc2723a2b9f78a7487a49c407"
 "checksum approx 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)" = "08abcc3b4e9339e33a3d0a5ed15d84a687350c05689d825e0f6655eef9e76a94"

@@ -21,18 +21,26 @@ fn model(app: &App) -> Model {
 
 fn view(app: &App, _model: &Model, frame: &Frame) {
     // Begin drawing
-    let draw = app
-        .draw();
-    let start_point = pt2(-30.0, -20.0);
-    let end_point   = pt2(40.0, 40.0);
+    let draw = app.draw();
 
-    draw.line()
-        .start(start_point)
-        .end(end_point)
-        .weight(4.0)
-        .color(STEELBLUE);
-           // Clear the background.
-        draw.background().color(PLUM);
-        draw.to_frame(app, &frame).unwrap();
+    draw.background().color(PLUM);
 
+    let points = get_points();
+
+    draw.polyline()
+        .weight(3.0)
+        .colored_points(points);
+    draw.to_frame(app, &frame).unwrap();
 }
+
+fn get_points() -> impl Iterator<Item=impl Into<ColoredPoint2<S>>)> {
+  (0..50).map(|i| {
+    let x = (i as f32 - 25.0);          
+    let point = pt2(x, x.sin()) * 20.0; 
+    (point, STEELBLUE)
+   })
+}
+
+
+
+
