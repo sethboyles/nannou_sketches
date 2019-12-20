@@ -60,7 +60,7 @@ fn view(app: &App, model: &Model, frame: &Frame) {
     // Clear the background.
     draw.background().color(BLACK);
     let noise = nannou::noise::Perlin::new();
-    let r = 400.0;
+    let r = 200.0;
     let total = 50;
     let point_range = Range {start: 0.0, end: total as f32 };
     let iter_range = Range { start: point_range.start as i32, end: point_range.end as i32 };
@@ -79,7 +79,7 @@ fn view(app: &App, model: &Model, frame: &Frame) {
         let mut x = r * lat.sin() * lon.cos();
         let y = r * lat.sin() * lon.sin();
         let mut z = r * lat.cos();
-        x += (noise.get([i as f64 * 0.1, j as f64 * 0.1]) * 60.0) as f32;
+        x += (noise.get([i as f64 * 0.1, j as f64 * 0.1]) * 30.0) as f32;
 
         let mut point = pt3(x,y,z);
         point = rotate_point_x(&point, model.x_rotation);

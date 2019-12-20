@@ -67,5 +67,17 @@ path = "joy_division.rs"
 [[example]] 
 name = "basic_sphere"
 path = "basic_sphere.rs"
+[[example]] 
+name = "ulam_spiral"
+path = "ulam_spiral.rs"
+[[example]] 
+name = "archimedean_spiral"
+path = "archimedean_spiral.rs"
+[[example]] 
+name = "archimedean_square_spiral"
+path = "archimedean_square_spiral.rs"
+
+
+
 
 
